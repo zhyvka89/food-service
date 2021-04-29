@@ -1,3 +1,5 @@
+import saveThemeColor from './local-storage';
+
 const themeSwitcherRef = document.querySelector('#theme-switch-toggle');
 const bodyRef = document.querySelector('body');
 
@@ -8,31 +10,22 @@ const Theme = {
   DARK: 'dark-theme',
 };
 
+bodyRef.classList.add(Theme.LIGHT);
+
 saveThemeColor();
 
 function themeSwitchHandler(e) {
     if (e.currentTarget.checked) {
-                bodyRef.classList.add(Theme.DARK);
-                bodyRef.classList.remove(Theme.LIGHT);
-                // localStorage.setItem('theme', Theme.DARK);
+        changeElementClass(bodyRef, Theme.DARK, Theme.LIGHT);
     } else {
-                bodyRef.classList.remove(Theme.DARK);
-                bodyRef.classList.add(Theme.LIGHT);
-                // localStorage.setItem('theme', Theme.LIGHT);
+        changeElementClass(bodyRef, Theme.LIGHT, Theme.DARK);
     }
             
-    localStorage.setItem('theme', bodyRef.classList);
-            
+    localStorage.setItem('theme', bodyRef.classList);      
+}
+
+function changeElementClass(element, firstClass, secondClass) {
+    element.classList.add(firstClass);
+    element.classList.remove(secondClass);
 }
         
-function saveThemeColor() {
-    const currentTheme = localStorage.getItem('theme');
-
-    if (currentTheme) {
-        bodyRef.classList.add(currentTheme);
-    }
-
-    if (currentTheme === Theme.DARK) {
-        themeSwitcherRef.checked = true;
-    }
-}
